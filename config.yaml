@@ -279,6 +279,7 @@ rule-providers:
     url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/tiktok.yaml
 rules:
 - SRC-IP-CIDR,172.16.21.201/32,DIRECT-CON
+- SRC-IP-CIDR,172.16.21.202/32,DIRECT-CON
 - DOMAIN-SUFFIX,prod.arwnet.id,DIRECT-CON
 - DOMAIN-SUFFIX,srv.arwnetwork.one,DIRECT-CON
 - DOMAIN,arwnetwork.one,DIRECT-CON
