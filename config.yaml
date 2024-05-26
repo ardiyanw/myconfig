@@ -236,47 +236,47 @@ rule-providers:
     type: http
     behavior: classical
     path: "./rule_provider/whatsapp.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/whatsapp.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/whatsapp.yaml
   RP-bstation:
     type: http
     behavior: classical
     path: "./rule_provider/bstation.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/bstation.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/bstation.yaml
   RP-portgame:
     type: http
     behavior: classical
     path: "./rule_provider/portgame.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/portgame.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/portgame.yaml
   RP-speedtest:
     type: http
     behavior: classical
     path: "./rule_provider/speedtest.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/speedtest.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/speedtest.yaml
   RP-zoom:
     type: http
     behavior: classical
     path: "./rule_provider/zoom.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/zoom.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/zoom.yaml
   RP-indo:
     type: http
     behavior: classical
     path: "./rule_provider/indo.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/indo.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/indo.yaml
   RP-spotify:
     type: http
     behavior: classical
     path: "./rule_provider/spotify.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/spotify.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/spotify.yaml
   RP-telegram:
     type: http
     behavior: classical
     path: "./rule_provider/telegram.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/telegram.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/telegram.yaml
   RP-tiktok:
     type: http
     behavior: classical
     path: "./rule_provider/tiktok.yaml"
-    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/tiktok.yaml
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/tiktok.yaml
 rules:
 #- DST-PORT,7895,REJECT
 #- DST-PORT,7892,REJECT
