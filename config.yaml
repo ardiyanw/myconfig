@@ -1,0 +1,331 @@
+---
+proxy-providers:
+  XL-SBDIGITAL:
+    type: file
+    path: "./proxy_provider/XL-VIDEO-SBDIGITAL.yaml"
+    health-check:
+      enable: true
+      url: http://ping.xmbb.net/
+      interval: 60
+  XL-ID:
+    type: file
+    path: "./proxy_provider/XL-ID.yaml"
+    health-check:
+      enable: true
+      url: http://ping.xmbb.net/
+      interval: 60
+proxy-groups:
+- name: SERVERXL-SBDIGITAL
+  type: select
+  interface-name: wwan0
+  use:
+  - XL-SBDIGITAL
+- name: SERVERXL-ID
+  type: select
+  interface-name: wwan0
+  use:
+  - XL-ID
+- name: DIRECT-INDI
+  type: select
+  interface-name: eth1
+  proxies:
+  - DIRECT
+- name: DIRECT-CON
+  type: select
+  proxies:
+  - DIRECT-INDI
+  - FAILOVER
+- name: FAILOVER
+  type: fallback
+  proxies:
+  - SERVERXL-ID
+  - SERVERXL-SBDIGITAL
+  - DIRECT-INDI
+- name: TUNNEL
+  type: select
+  proxies:
+  - SERVERXL-ID
+  - SERVERXL-SBDIGITAL
+  - DIRECT-INDI
+  - FAILOVER
+port: 7890
+socks-port: 7891
+mixed-port: 7893
+redir-port: 7892
+tproxy-port: 7895
+geodata-mode: true
+geodata-loader: memconservative
+tcp-concurrent: true
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: silent
+ipv6: false
+external-controller: 0.0.0.0:9090
+external-ui: "/usr/share/openclash/ui"
+secret: 123456
+profile:
+  store-selected: true
+  store-fake-ip: false
+sniffer:
+  enable: true
+  sniffing:
+  - tls
+  - http
+  ForceDnsMapping: false
+  ParsePureIp: true
+  force-domain:
+  - "+.netflix.com"
+  - "+.nflxvideo.net"
+  - "+.amazonaws.com"
+  - "+.media.dssot.com"
+  skip-domain:
+  - "+.apple.com"
+  - Mijia Cloud
+  - "+.jd.com"
+  port-whitelist:
+  - 443
+  - 80
+dns:
+  enable: true
+  listen: 0.0.0.0:7874
+  default-nameserver:
+  - 1.1.1.1
+  - 1.0.0.1
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+  - "*.lan"
+  - "*.localdomain"
+  - "*.example"
+  - "*.invalid"
+  - "*.localhost"
+  - "*.test"
+  - "*.local"
+  - "*.home.arpa"
+  - time.*.com
+  - time.*.gov
+  - time.*.edu.cn
+  - time.*.apple.com
+  - time-ios.apple.com
+  - time1.*.com
+  - time2.*.com
+  - time3.*.com
+  - time4.*.com
+  - time5.*.com
+  - time6.*.com
+  - time7.*.com
+  - ntp.*.com
+  - ntp1.*.com
+  - ntp2.*.com
+  - ntp3.*.com
+  - ntp4.*.com
+  - ntp5.*.com
+  - ntp6.*.com
+  - ntp7.*.com
+  - "*.time.edu.cn"
+  - "*.ntp.org.cn"
+  - "+.pool.ntp.org"
+  - time1.cloud.tencent.com
+  - music.163.com
+  - "*.music.163.com"
+  - "*.126.net"
+  - musicapi.taihe.com
+  - music.taihe.com
+  - songsearch.kugou.com
+  - trackercdn.kugou.com
+  - "*.kuwo.cn"
+  - api-jooxtt.sanook.com
+  - api.joox.com
+  - joox.com
+  - y.qq.com
+  - "*.y.qq.com"
+  - streamoc.music.tc.qq.com
+  - mobileoc.music.tc.qq.com
+  - isure.stream.qqmusic.qq.com
+  - dl.stream.qqmusic.qq.com
+  - aqqmusic.tc.qq.com
+  - amobile.music.tc.qq.com
+  - "*.xiami.com"
+  - "*.music.migu.cn"
+  - music.migu.cn
+  - "+.msftconnecttest.com"
+  - "+.msftncsi.com"
+  - msftconnecttest.com
+  - msftncsi.com
+  - localhost.ptlogin2.qq.com
+  - localhost.sec.qq.com
+  - "+.srv.nintendo.net"
+  - "*.n.n.srv.nintendo.net"
+  - "+.stun.playstation.net"
+  - xbox.*.*.microsoft.com
+  - "*.*.xboxlive.com"
+  - xbox.*.microsoft.com
+  - xnotify.xboxlive.com
+  - "+.battlenet.com.cn"
+  - "+.wotgame.cn"
+  - "+.wggames.cn"
+  - "+.wowsgame.cn"
+  - "+.wargaming.net"
+  - proxy.golang.org
+  - stun.*.*
+  - stun.*.*.*
+  - "+.stun.*.*"
+  - "+.stun.*.*.*"
+  - "+.stun.*.*.*.*"
+  - "+.stun.*.*.*.*.*"
+  - heartbeat.belkin.com
+  - "*.linksys.com"
+  - "*.linksyssmartwifi.com"
+  - "*.router.asus.com"
+  - mesu.apple.com
+  - swscan.apple.com
+  - swquery.apple.com
+  - swdownload.apple.com
+  - swcdn.apple.com
+  - swdist.apple.com
+  - lens.l.google.com
+  - stun.l.google.com
+  - "+.nflxvideo.net"
+  - "*.square-enix.com"
+  - "*.finalfantasyxiv.com"
+  - "*.ffxiv.com"
+  - "*.ff14.sdo.com"
+  - ff.dorado.sdo.com
+  - "*.mcdn.bilivideo.cn"
+  - "+.media.dssott.com"
+  - shark007.net
+  nameserver:
+  - https://2ut5yukgpm.cloudflare-gateway.com/dns-query
+  fallback:
+  - tls://2ut5yukgpm.cloudflare-gateway.com:853
+  fallback-filter:
+    geoip: true
+    geoip-code: ID
+    ipcidr:
+    - 0.0.0.0/8
+    - 10.0.0.0/8
+    - 100.64.0.0/10
+    - 127.0.0.0/8
+    - 169.254.0.0/16
+    - 172.16.0.0/12
+    - 192.0.0.0/24
+    - 192.0.2.0/24
+    - 192.88.99.0/24
+    - 192.168.0.0/16
+    - 198.18.0.0/15
+    - 198.51.100.0/24
+    - 203.0.113.0/24
+    - 224.0.0.0/4
+    - 240.0.0.0/4
+    - 255.255.255.255/32
+    domain:
+    - "+.google.com"
+    - "+.facebook.com"
+    - "+.youtube.com"
+    - "+.githubusercontent.com"
+    - "+.googlevideo.com"
+    - "+.msftconnecttest.com"
+    - "+.msftncsi.com"
+    - msftconnecttest.com
+    - msftncsi.com
+    - "+.*"
+  ipv6: false
+rule-providers:
+  RP-whatsapp:
+    type: http
+    behavior: classical
+    path: "./rule_provider/whatsapp.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/whatsapp.yaml
+  RP-bstation:
+    type: http
+    behavior: classical
+    path: "./rule_provider/bstation.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/bstation.yaml
+  RP-portgame:
+    type: http
+    behavior: classical
+    path: "./rule_provider/portgame.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/portgame.yaml
+  RP-speedtest:
+    type: http
+    behavior: classical
+    path: "./rule_provider/speedtest.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/speedtest.yaml
+  RP-zoom:
+    type: http
+    behavior: classical
+    path: "./rule_provider/zoom.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/zoom.yaml
+  RP-indo:
+    type: http
+    behavior: classical
+    path: "./rule_provider/indo.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/indo.yaml
+  RP-spotify:
+    type: http
+    behavior: classical
+    path: "./rule_provider/spotify.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/spotify.yaml
+  RP-telegram:
+    type: http
+    behavior: classical
+    path: "./rule_provider/telegram.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/telegram.yaml
+  RP-tiktok:
+    type: http
+    behavior: classical
+    path: "./rule_provider/tiktok.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/oc-config/main/rule-provider/tiktok.yaml
+rules:
+#- DST-PORT,7895,REJECT
+#- DST-PORT,7892,REJECT
+- SRC-IP-CIDR,172.16.21.201/32,DIRECT-CON
+#- AND, ((NETWORK,tcp),(DST-PORT,80),(DOMAIN-SUFFIX,ml.youngjoygame.com)),DIRECT-CON
+#- AND, ((NETWORK,tcp),(DST-PORT,53),(SRC-IP-CIDR,172.16.2.2/32)),DIRECT-CON
+#- AND, ((NETWORK,udp),(DST-PORT,53),(SRC-IP-CIDR,172.16.2.2/32)),DIRECT-CON
+#- AND, ((NETWORK,tcp),(DST-PORT,80),(SRC-IP-CIDR,172.16.21.201/32)),TUNNEL
+#- AND, ((NETWORK,tcp),(DST-PORT,443),(SRC-IP-CIDR,172.16.21.201/32)),TUNNEL
+#- DOMAIN-SUFFIX,downloads.raspberrypi.com,TUNNEL
+- DOMAIN-SUFFIX,prod.arwnet.id,DIRECT-CON
+- DOMAIN-SUFFIX,srv.arwnetwork.one,DIRECT-CON
+- DST-PORT,8080,TUNNEL
+- SRC-IP-CIDR,10.0.0.10/32,TUNNEL
+- SRC-IP-CIDR,10.0.0.12/32,TUNNEL
+#- SRC-IP-CIDR,172.16.2.2/32,TUNNEL
+#- SRC-IP-CIDR,172.16.100.254/32,TUNNEL
+#- SRC-IP-CIDR,10.10.10.249/32,TUNNEL
+#- IP-CIDR,198.18.0.1/16,REJECT,no-resolve
+#- IP-CIDR,103.253.27.84/32,DIRECT-CON
+- IP-CIDR,38.9.141.66/32,TUNNEL
+#- SRC-IP-CIDR,172.16.2.201/32,TUNNEL
+#- DOMAIN-SUFFIX,pupuk-indonesia.com,DIRECT-CON
+- DOMAIN-SUFFIX,arwnetwork.one,TUNNEL
+- DOMAIN-SUFFIX,mediafire.com,TUNNEL
+- DOMAIN-SUFFIX,k.gjacky.com,TUNNEL
+- GEOIP,private,DIRECT-CON,no-resolve
+- RULE-SET,RP-whatsapp,DIRECT-CON
+- RULE-SET,RP-bstation,TUNNEL
+- RULE-SET,RP-speedtest,DIRECT-CON
+- RULE-SET,RP-zoom,DIRECT-CON
+- RULE-SET,RP-spotify,DIRECT-CON
+- RULE-SET,RP-telegram,TUNNEL
+- RULE-SET,RP-tiktok,TUNNEL
+#- GEOSITE,facebook,TUNNEL
+#- GEOIP,facebook,TUNNEL
+- GEOSITE,google,TUNNEL
+- GEOIP,google,TUNNEL
+- GEOSITE,twitter,TUNNEL
+- GEOIP,twitter,TUNNEL
+- GEOSITE,telegram,TUNNEL
+- GEOIP,telegram,TUNNEL
+- GEOSITE,tiktok,TUNNEL
+- GEOIP,cloudflare,TUNNEL
+- GEOSITE,cloudflare,TUNNEL
+- GEOSITE,microsoft,TUNNEL
+- RULE-SET,RP-portgame,DIRECT-CON
+- RULE-SET,RP-indo,DIRECT-CON
+- GEOIP,sg,TUNNEL
+- GEOSITE,akamai,TUNNEL
+- GEOIP,id,DIRECT-CON
+- MATCH,GLOBAL
