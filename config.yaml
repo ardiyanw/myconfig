@@ -1,12 +1,5 @@
 ---
 proxy-providers:
-  XL-SBDIGITAL:
-    type: file
-    path: "./proxy_provider/XL-VIDEO-SBDIGITAL.yaml"
-    health-check:
-      enable: true
-      url: http://ping.xmbb.net/
-      interval: 60
   XL-ID:
     type: file
     path: "./proxy_provider/XL-ID.yaml"
@@ -15,16 +8,6 @@ proxy-providers:
       url: http://ping.xmbb.net/
       interval: 60
 proxy-groups:
-- name: SERVERXL-SBDIGITAL
-  type: select
-  interface-name: wwan0
-  use:
-  - XL-SBDIGITAL
-- name: SERVERXL-ID
-  type: select
-  interface-name: wwan0
-  use:
-  - XL-ID
 - name: DIRECT-INDI
   type: select
   interface-name: eth1
@@ -35,17 +18,20 @@ proxy-groups:
   proxies:
   - DIRECT-INDI
   - FAILOVER
+- name: LB-XL
+  type: load-balance
+  strategy: round-robin
+  use:
+  - XL-ID
 - name: FAILOVER
   type: fallback
   proxies:
-  - SERVERXL-ID
-  - SERVERXL-SBDIGITAL
+  - LB-XL
   - DIRECT-INDI
 - name: TUNNEL
   type: select
   proxies:
-  - SERVERXL-ID
-  - SERVERXL-SBDIGITAL
+  - LB-XL
   - DIRECT-INDI
   - FAILOVER
 port: 7890
@@ -277,10 +263,16 @@ rule-providers:
     behavior: classical
     path: "./rule_provider/tiktok.yaml"
     url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/tiktok.yaml
+  RP-google:
+    type: http
+    behavior: classical
+    path: "./rule_provider/google.yaml"
+    url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/google.yaml
 rules:
 - SRC-IP-CIDR,172.16.21.201/32,DIRECT-CON
 - SRC-IP-CIDR,172.16.21.202/32,DIRECT-CON
 - DOMAIN-SUFFIX,prod.arwnet.id,DIRECT-CON
+- DOMAIN-SUFFIX,vipor.net,DIRECT-CON
 - DOMAIN-SUFFIX,srv.arwnetwork.one,DIRECT-CON
 - DOMAIN,arwnetwork.one,DIRECT-CON
 - DST-PORT,8080,TUNNEL
@@ -298,8 +290,9 @@ rules:
 - RULE-SET,RP-spotify,DIRECT-CON
 - RULE-SET,RP-telegram,TUNNEL
 - RULE-SET,RP-tiktok,TUNNEL
-#- GEOSITE,facebook,TUNNEL
-#- GEOIP,facebook,TUNNEL
+- RULE-SET,RP-google,TUNNEL
+- GEOSITE,facebook,DIRECT-CON
+- GEOIP,facebook,DIRECT-CON
 - GEOSITE,google,TUNNEL
 - GEOIP,google,TUNNEL
 - GEOSITE,twitter,TUNNEL
@@ -313,6 +306,6 @@ rules:
 - RULE-SET,RP-portgame,DIRECT-CON
 - RULE-SET,RP-indo,DIRECT-CON
 - GEOIP,sg,TUNNEL
-#- GEOSITE,akamai,TUNNEL
+- GEOSITE,akamai,TUNNEL
 - GEOIP,id,DIRECT-CON
 - MATCH,GLOBAL
