@@ -1,8 +1,15 @@
 ---
 proxy-providers:
-  XL-ID:
+  XL-DELL:
     type: file
     path: "./proxy_provider/XL-ID.yaml"
+    health-check:
+      enable: true
+      url: http://ping.xmbb.net/
+      interval: 60
+  XL-USB:
+    type: file
+    path: "./proxy_provider/XL-USB.yaml"
     health-check:
       enable: true
       url: http://ping.xmbb.net/
@@ -18,20 +25,33 @@ proxy-groups:
   proxies:
   - DIRECT-INDI
   - FAILOVER
-- name: LB-XL
+- name: RAKITAN
   type: load-balance
   strategy: round-robin
   use:
-  - XL-ID
+  - XL-DELL
+- name: USB
+  type: load-balance
+  strategy: round-robin
+  use:
+  - XL-USB
+- name: LB
+  type: load-balance
+  strategy: round-robin
+  proxies:
+  - RAKITAN
+  - USB
 - name: FAILOVER
   type: fallback
   proxies:
-  - LB-XL
+  - LB
+  - RAKITAN
+  - USB
   - DIRECT-INDI
 - name: TUNNEL
   type: select
   proxies:
-  - LB-XL
+  - LB
   - DIRECT-INDI
   - FAILOVER
 port: 7890
@@ -283,22 +303,22 @@ rules:
 - DOMAIN-SUFFIX,mediafire.com,TUNNEL
 - DOMAIN-SUFFIX,k.gjacky.com,TUNNEL
 - GEOIP,private,DIRECT-CON,no-resolve
-- RULE-SET,RP-whatsapp,DIRECT-CON
 - RULE-SET,RP-bstation,TUNNEL
 - RULE-SET,RP-speedtest,DIRECT-CON
 - RULE-SET,RP-zoom,DIRECT-CON
 - RULE-SET,RP-spotify,DIRECT-CON
 - RULE-SET,RP-telegram,TUNNEL
+- GEOSITE,telegram,TUNNEL
+- GEOIP,telegram,TUNNEL
 - RULE-SET,RP-tiktok,TUNNEL
 - RULE-SET,RP-google,TUNNEL
+- RULE-SET,RP-whatsapp,DIRECT-CON
 - GEOSITE,facebook,TUNNEL
 - GEOIP,facebook,TUNNEL
 - GEOSITE,google,TUNNEL
 - GEOIP,google,TUNNEL
 - GEOSITE,twitter,TUNNEL
 - GEOIP,twitter,TUNNEL
-- GEOSITE,telegram,TUNNEL
-- GEOIP,telegram,TUNNEL
 - GEOSITE,tiktok,TUNNEL
 - GEOIP,cloudflare,TUNNEL
 - GEOSITE,cloudflare,TUNNEL
