@@ -1,15 +1,8 @@
 ---
 proxy-providers:
-  XL-ID:
+  XL:
     type: file
-    path: "./proxy_provider/XL-ID.yaml"
-    health-check:
-      enable: true
-      url: http://ping.xmbb.net/
-      interval: 60
-  XL-WS:
-    type: file
-    path: "./proxy_provider/XL-WS.yaml"
+    path: "./proxy_provider/singlemodem.yaml"
     health-check:
       enable: true
       url: http://ping.xmbb.net/
@@ -25,47 +18,26 @@ proxy-groups:
   proxies:
   - DIRECT-INDI
   - FAILOVER
-- name: LB-ID
-  type: load-balance
-  strategy: round-robin
-  use:
-  - XL-ID
-- name: LB-WS
-  type: load-balance
-  strategy: round-robin
-  use:
-  - XL-WS
-- name: ID
+- name: PG-XL
   type: select
   use:
-  - XL-ID
-- name: WS
-  type: select
-  use:
-  - XL-WS
+  - XL
 - name: LB
   type: load-balance
   strategy: round-robin
   proxies:
-  - LB-ID
-  - LB-WS
+  - PG-XL
 - name: FAILOVER
   type: fallback
   proxies:
   - LB
-  - LB-ID
-  - LB-WS
-  - ID
-  - WS
+  - PG-XL
   - DIRECT-INDI
 - name: TUNNEL
   type: select
   proxies:
   - LB
-  - LB-ID
-  - LB-WS
-  - ID
-  - WS
+  - PG-XL
   - DIRECT-INDI
   - FAILOVER
 port: 7890
@@ -313,6 +285,7 @@ rules:
 - SRC-IP-CIDR,10.0.0.10/32,TUNNEL
 - SRC-IP-CIDR,10.0.0.12/32,TUNNEL
 - IP-CIDR,38.9.141.66/32,TUNNEL
+- RULE-SET,RP-portgame,DIRECT-CON
 - DOMAIN-SUFFIX,arwnetwork.one,TUNNEL
 - DOMAIN-SUFFIX,mediafire.com,TUNNEL
 - DOMAIN-SUFFIX,k.gjacky.com,TUNNEL
@@ -337,7 +310,6 @@ rules:
 - GEOIP,cloudflare,TUNNEL
 - GEOSITE,cloudflare,TUNNEL
 - GEOSITE,microsoft,TUNNEL
-- RULE-SET,RP-portgame,DIRECT-CON
 - RULE-SET,RP-indo,DIRECT-CON
 - GEOIP,sg,TUNNEL
 - GEOSITE,akamai,TUNNEL
