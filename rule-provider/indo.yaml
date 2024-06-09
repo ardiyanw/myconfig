@@ -10766,3 +10766,4 @@ payload:
   - IP-CIDR,223.255.228.0/24
   - IP-CIDR,223.255.231.0/24
   - DOMAIN-SUFFIX,bibit.id
+  - DOMAIN-SUFFIX,argotunnel.com
