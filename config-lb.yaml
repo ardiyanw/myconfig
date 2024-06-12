@@ -300,6 +300,7 @@ rules:
 - SRC-IP-CIDR,10.0.0.12/32,TUNNEL
 - IP-CIDR,38.9.141.66/32,TUNNEL
 - RULE-SET,RP-portgame,DIRECT-CON
+- RULE-SET,RP-whatsapp,DIRECT-CON
 - DOMAIN-SUFFIX,arwnetwork.one,TUNNEL
 - DOMAIN-SUFFIX,mediafire.com,TUNNEL
 - DOMAIN-SUFFIX,k.gjacky.com,TUNNEL
@@ -313,7 +314,6 @@ rules:
 - GEOIP,telegram,TUNNEL
 - RULE-SET,RP-tiktok,TUNNEL
 - RULE-SET,RP-google,TUNNEL
-- RULE-SET,RP-whatsapp,DIRECT-CON
 - GEOSITE,facebook,TUNNEL
 - GEOIP,facebook,TUNNEL
 - GEOSITE,google,TUNNEL
