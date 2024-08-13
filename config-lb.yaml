@@ -1,59 +1,15 @@
 ---
-proxy-providers:
-  RAKITAN:
-    type: file
-    path: "./proxy_provider/singlemodem.yaml"
-    health-check:
-      enable: true
-      url: http://ping.xmbb.net/
-      interval: 60
-  HUAWEI:
-    type: file
-    path: "./proxy_provider/huawei.yaml"
-    health-check:
-      enable: true
-      url: http://ping.xmbb.net/
-      interval: 60
 proxy-groups:
-- name: DIRECT-INDI
+- name: AksesData
   type: select
   interface-name: eth1
   proxies:
   - DIRECT
-- name: DIRECT-CON
+- name: Starlink
   type: select
+  interface-name: phy0-sta0
   proxies:
-  - DIRECT-INDI
-  - FAILOVER
-- name: PG-RAKITAN
-  type: select
-  use:
-  - RAKITAN
-- name: PG-HUAWEI
-  type: select
-  use:
-  - HUAWEI
-- name: LB
-  type: load-balance
-  strategy: round-robin
-  use:
-  - RAKITAN
-  - HUAWEI
-- name: FAILOVER
-  type: fallback
-  proxies:
-  - LB
-  - PG-RAKITAN
-  - PG-HUAWEI
-  - DIRECT-INDI
-- name: TUNNEL
-  type: select
-  proxies:
-  - LB
-  - PG-RAKITAN
-  - PG-HUAWEI
-  - DIRECT-INDI
-  - FAILOVER
+  - DIRECT
 port: 7890
 socks-port: 7891
 mixed-port: 7893
@@ -289,45 +245,33 @@ rule-providers:
     path: "./rule_provider/google.yaml"
     url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/google.yaml
 rules:
-- SRC-IP-CIDR,172.16.21.201/32,DIRECT-CON
-- SRC-IP-CIDR,172.16.21.202/32,DIRECT-CON
-- DOMAIN-SUFFIX,prod.arwnet.id,DIRECT-CON
-- DOMAIN-SUFFIX,vipor.net,DIRECT-CON
-- DOMAIN-SUFFIX,srv.arwnetwork.one,DIRECT-CON
-- DOMAIN,arwnetwork.one,DIRECT-CON
-- DST-PORT,8080,TUNNEL
-- SRC-IP-CIDR,10.0.0.10/32,TUNNEL
-- SRC-IP-CIDR,10.0.0.12/32,TUNNEL
-- IP-CIDR,38.9.141.66/32,TUNNEL
-- RULE-SET,RP-portgame,DIRECT-CON
-- RULE-SET,RP-whatsapp,DIRECT-CON
-- DOMAIN-SUFFIX,arwnetwork.one,TUNNEL
-- DOMAIN-SUFFIX,mediafire.com,TUNNEL
-- DOMAIN-SUFFIX,k.gjacky.com,TUNNEL
+- SRC-IP-CIDR,172.16.21.0/24,Starlink
+- DST-PORT,8080,Starlink
+- RULE-SET,RP-portgame,Starlink
+- RULE-SET,RP-whatsapp,Starlink
 - GEOIP,private,DIRECT-CON,no-resolve
-- RULE-SET,RP-bstation,TUNNEL
-- RULE-SET,RP-speedtest,DIRECT-CON
-- RULE-SET,RP-zoom,DIRECT-CON
-- RULE-SET,RP-spotify,DIRECT-CON
-- RULE-SET,RP-telegram,TUNNEL
-- GEOSITE,telegram,TUNNEL
-- GEOIP,telegram,TUNNEL
-- RULE-SET,RP-tiktok,TUNNEL
-- RULE-SET,RP-google,TUNNEL
-- GEOSITE,facebook,TUNNEL
-- GEOIP,facebook,TUNNEL
-- GEOSITE,google,TUNNEL
-- GEOIP,google,TUNNEL
-- GEOSITE,twitter,TUNNEL
-- GEOIP,twitter,TUNNEL
-- GEOSITE,tiktok,TUNNEL
-- GEOIP,cloudflare,TUNNEL
-- GEOSITE,cloudflare,TUNNEL
-- GEOSITE,microsoft,TUNNEL
-- RULE-SET,RP-indo,DIRECT-CON
+- RULE-SET,RP-bstation,Starlink
+- RULE-SET,RP-speedtest,AksesData
+- RULE-SET,RP-zoom,Starlink
+- RULE-SET,RP-spotify,Starlink
+- RULE-SET,RP-telegram,Starlink
+- GEOSITE,telegram,Starlink
+- GEOIP,telegram,Starlink
+- RULE-SET,RP-tiktok,Starlink
+- RULE-SET,RP-google,Starlink
+- GEOSITE,facebook,Starlink
+- GEOIP,facebook,Starlink
+- GEOSITE,google,Starlink
+- GEOIP,google,Starlink
+- GEOSITE,twitter,Starlink
+- GEOIP,twitter,Starlink
+- GEOSITE,tiktok,Starlink
+- GEOIP,cloudflare,Starlink
+- GEOSITE,cloudflare,Starlink
+- GEOSITE,microsoft,Starlink
+- RULE-SET,RP-indo,AksesData
 - GEOIP,sg,TUNNEL
-- GEOSITE,akamai,TUNNEL
-- IP-CIDR,203.207.55.0/24,TUNNEL
-- GEOIP,id,DIRECT-CON
-- RULE-SET,RP-indo,DIRECT-CON
+- GEOSITE,akamai,Starlink
+- GEOIP,id,AksesData
+- RULE-SET,RP-indo,AksesData
 - MATCH,GLOBAL
