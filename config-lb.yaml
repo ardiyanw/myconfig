@@ -266,11 +266,11 @@ rules:
 - GEOSITE,twitter,Starlink
 - GEOIP,twitter,Starlink
 - GEOSITE,tiktok,Starlink
-- GEOIP,cloudflare,Starlink
-- GEOSITE,cloudflare,Starlink
+- GEOIP,cloudflare,AksesData
+- GEOSITE,cloudflare,AksesData
 - GEOSITE,microsoft,Starlink
 - RULE-SET,RP-indo,AksesData
-- GEOIP,sg,Starlink
+- GEOIP,sg,AksesData
 - GEOSITE,akamai,Starlink
 - GEOIP,id,AksesData
 - RULE-SET,RP-indo,AksesData
