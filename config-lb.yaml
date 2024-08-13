@@ -249,7 +249,7 @@ rules:
 - DST-PORT,8080,Starlink
 - RULE-SET,RP-portgame,Starlink
 - RULE-SET,RP-whatsapp,Starlink
-- GEOIP,private,DIRECT-CON,no-resolve
+- GEOIP,private,AksesData,no-resolve
 - RULE-SET,RP-bstation,Starlink
 - RULE-SET,RP-speedtest,AksesData
 - RULE-SET,RP-zoom,Starlink
@@ -270,7 +270,7 @@ rules:
 - GEOSITE,cloudflare,Starlink
 - GEOSITE,microsoft,Starlink
 - RULE-SET,RP-indo,AksesData
-- GEOIP,sg,TUNNEL
+- GEOIP,sg,Starlink
 - GEOSITE,akamai,Starlink
 - GEOIP,id,AksesData
 - RULE-SET,RP-indo,AksesData
