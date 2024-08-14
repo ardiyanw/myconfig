@@ -10,6 +10,16 @@ proxy-groups:
   interface-name: phy0-sta0
   proxies:
   - DIRECT
+- name: via-akses
+  type: fallback
+  proxies:
+  - AksesData
+  - Starlink
+- name: via-Starkink
+  type: fallback
+  proxies:
+  - Starlink
+  - AksesData
 port: 7890
 socks-port: 7891
 mixed-port: 7893
@@ -245,33 +255,33 @@ rule-providers:
     path: "./rule_provider/google.yaml"
     url: https://raw.githubusercontent.com/ardiyanw/myconfig/main/rule-provider/google.yaml
 rules:
-- SRC-IP-CIDR,172.16.21.0/24,Starlink
-- DST-PORT,8080,Starlink
-- RULE-SET,RP-portgame,Starlink
-- RULE-SET,RP-whatsapp,Starlink
+- SRC-IP-CIDR,172.16.21.0/24,via-Starkink
+- DST-PORT,8080,via-Starkink
+- RULE-SET,RP-portgame,via-Starkink
+- RULE-SET,RP-whatsapp,via-Starkink
 - GEOIP,private,AksesData,no-resolve
-- RULE-SET,RP-bstation,Starlink
-- RULE-SET,RP-speedtest,AksesData
-- RULE-SET,RP-zoom,Starlink
-- RULE-SET,RP-spotify,Starlink
-- RULE-SET,RP-telegram,Starlink
-- GEOSITE,telegram,Starlink
-- GEOIP,telegram,Starlink
-- RULE-SET,RP-tiktok,Starlink
-- RULE-SET,RP-google,Starlink
-- GEOSITE,facebook,Starlink
-- GEOIP,facebook,Starlink
-- GEOSITE,google,Starlink
-- GEOIP,google,Starlink
-- GEOSITE,twitter,Starlink
-- GEOIP,twitter,Starlink
-- GEOSITE,tiktok,Starlink
-- GEOIP,cloudflare,AksesData
-- GEOSITE,cloudflare,AksesData
-- GEOSITE,microsoft,Starlink
-- RULE-SET,RP-indo,AksesData
-- GEOIP,sg,AksesData
-- GEOSITE,akamai,Starlink
-- GEOIP,id,AksesData
-- RULE-SET,RP-indo,AksesData
+- RULE-SET,RP-bstation,via-Starkink
+- RULE-SET,RP-speedtest,via-akses
+- RULE-SET,RP-zoom,via-Starkink
+- RULE-SET,RP-spotify,via-Starkink
+- RULE-SET,RP-telegram,via-Starkink
+- GEOSITE,telegram,via-Starkink
+- GEOIP,telegram,via-Starkink
+- RULE-SET,RP-tiktok,via-Starkink
+- RULE-SET,RP-google,via-Starkink
+- GEOSITE,facebook,via-Starkink
+- GEOIP,facebook,via-Starkink
+- GEOSITE,google,via-Starkink
+- GEOIP,google,via-Starkink
+- GEOSITE,twitter,via-Starkink
+- GEOIP,twitter,via-Starkink
+- GEOSITE,tiktok,via-Starkink
+- GEOIP,cloudflare,via-akses
+- GEOSITE,cloudflare,via-akses
+- GEOSITE,microsoft,via-Starkink
+- RULE-SET,RP-indo,via-akses
+- GEOIP,sg,via-akses
+- GEOSITE,akamai,via-Starkink
+- GEOIP,id,via-akses
+- RULE-SET,RP-indo,via-akses
 - MATCH,GLOBAL
